@@ -1,56 +1,44 @@
-/**
- * Mapeia o `weather_code` (WMO) da Open-Meteo para um rótulo em pt-BR e um
- * ícone (emoji). Mantém o domínio de apresentação isolado e testável.
- *
- * Referência: https://open-meteo.com/en/docs (WMO Weather interpretation codes)
- */
-
-interface WeatherInfo {
+export interface WeatherCondition {
   label: string;
   icon: string;
 }
 
-const WEATHER_CODE_MAP: Record<number, WeatherInfo> = {
-  0: { label: 'Céu limpo', icon: '☀️' },
-  1: { label: 'Predomínio de sol', icon: '🌤️' },
-  2: { label: 'Parcialmente nublado', icon: '⛅' },
-  3: { label: 'Nublado', icon: '☁️' },
-  45: { label: 'Névoa', icon: '🌫️' },
-  48: { label: 'Névoa com gelo', icon: '🌫️' },
-  51: { label: 'Garoa leve', icon: '🌦️' },
-  53: { label: 'Garoa moderada', icon: '🌦️' },
-  55: { label: 'Garoa intensa', icon: '🌧️' },
-  56: { label: 'Garoa congelante', icon: '🌧️' },
-  57: { label: 'Garoa congelante intensa', icon: '🌧️' },
-  61: { label: 'Chuva fraca', icon: '🌦️' },
-  63: { label: 'Chuva moderada', icon: '🌧️' },
-  65: { label: 'Chuva forte', icon: '🌧️' },
-  66: { label: 'Chuva congelante', icon: '🌧️' },
-  67: { label: 'Chuva congelante forte', icon: '🌧️' },
-  71: { label: 'Neve fraca', icon: '🌨️' },
-  73: { label: 'Neve moderada', icon: '🌨️' },
-  75: { label: 'Neve forte', icon: '❄️' },
-  77: { label: 'Grãos de neve', icon: '🌨️' },
-  80: { label: 'Pancadas de chuva fracas', icon: '🌦️' },
-  81: { label: 'Pancadas de chuva moderadas', icon: '🌧️' },
-  82: { label: 'Pancadas de chuva fortes', icon: '⛈️' },
-  85: { label: 'Pancadas de neve fracas', icon: '🌨️' },
-  86: { label: 'Pancadas de neve fortes', icon: '❄️' },
-  95: { label: 'Trovoadas', icon: '⛈️' },
-  96: { label: 'Trovoadas com granizo', icon: '⛈️' },
-  99: { label: 'Trovoadas com granizo forte', icon: '⛈️' },
+const UNKNOWN_CONDITION: WeatherCondition = {
+  label: 'Condição desconhecida',
+  icon: 'unknown',
 };
 
-const UNKNOWN: WeatherInfo = { label: 'Condição desconhecida', icon: '🌡️' };
+export const WEATHER_CONDITIONS: Readonly<Record<number, WeatherCondition>> = {
+  0: { label: 'Céu limpo', icon: 'clear-day' },
+  1: { label: 'Predominantemente limpo', icon: 'mostly-clear' },
+  2: { label: 'Parcialmente nublado', icon: 'partly-cloudy' },
+  3: { label: 'Nublado', icon: 'cloudy' },
+  45: { label: 'Nevoeiro', icon: 'fog' },
+  48: { label: 'Nevoeiro com geada', icon: 'fog' },
+  51: { label: 'Garoa fraca', icon: 'drizzle' },
+  53: { label: 'Garoa moderada', icon: 'drizzle' },
+  55: { label: 'Garoa intensa', icon: 'drizzle' },
+  56: { label: 'Garoa congelante fraca', icon: 'freezing-drizzle' },
+  57: { label: 'Garoa congelante intensa', icon: 'freezing-drizzle' },
+  61: { label: 'Chuva fraca', icon: 'rain' },
+  63: { label: 'Chuva moderada', icon: 'rain' },
+  65: { label: 'Chuva intensa', icon: 'rain' },
+  66: { label: 'Chuva congelante fraca', icon: 'freezing-rain' },
+  67: { label: 'Chuva congelante intensa', icon: 'freezing-rain' },
+  71: { label: 'Neve fraca', icon: 'snow' },
+  73: { label: 'Neve moderada', icon: 'snow' },
+  75: { label: 'Neve intensa', icon: 'snow' },
+  77: { label: 'Grãos de neve', icon: 'snow' },
+  80: { label: 'Pancadas de chuva fracas', icon: 'showers' },
+  81: { label: 'Pancadas de chuva moderadas', icon: 'showers' },
+  82: { label: 'Pancadas de chuva intensas', icon: 'showers' },
+  85: { label: 'Pancadas de neve fracas', icon: 'snow-showers' },
+  86: { label: 'Pancadas de neve intensas', icon: 'snow-showers' },
+  95: { label: 'Trovoada', icon: 'thunderstorm' },
+  96: { label: 'Trovoada com granizo fraco', icon: 'thunderstorm-hail' },
+  99: { label: 'Trovoada com granizo intenso', icon: 'thunderstorm-hail' },
+};
 
-export function getWeatherInfo(code: number): WeatherInfo {
-  return WEATHER_CODE_MAP[code] ?? UNKNOWN;
-}
-
-export function getWeatherLabel(code: number): string {
-  return getWeatherInfo(code).label;
-}
-
-export function getWeatherIcon(code: number): string {
-  return getWeatherInfo(code).icon;
+export function getWeatherCondition(code: number): WeatherCondition {
+  return WEATHER_CONDITIONS[code] ?? UNKNOWN_CONDITION;
 }

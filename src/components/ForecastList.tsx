@@ -1,19 +1,20 @@
-import type { ForecastDay, Unit } from '../types/weather';
-import ForecastCard from './ForecastCard';
+import type { ForecastDay, TemperatureUnit } from '../types/weather';
+import ForecastDayItem from './ForecastDayItem';
 
 interface ForecastListProps {
   forecast: ForecastDay[];
-  unit: Unit;
+  unit: TemperatureUnit;
 }
 
-/** Grid responsivo com a previsão de 5 dias. */
 export default function ForecastList({ forecast, unit }: ForecastListProps) {
   return (
-    <section aria-label="Previsão de 5 dias">
-      <h2 className="mb-4 text-xl font-bold">Previsão de 5 dias</h2>
+    <section aria-labelledby="forecast-title" className="mt-8">
+      <h2 className="mb-4 text-xl font-bold text-white" id="forecast-title">
+        Previsão de 5 dias
+      </h2>
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        {forecast.map((day, index) => (
-          <ForecastCard key={day.date} day={day} index={index} unit={unit} />
+        {forecast.slice(0, 5).map((day) => (
+          <ForecastDayItem day={day} key={day.date} unit={unit} />
         ))}
       </ul>
     </section>
